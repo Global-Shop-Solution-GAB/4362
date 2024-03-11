@@ -1,0 +1,1068 @@
+Program.Sub.ScreenSU.Start
+Program.Sub.ScreenSU.End
+
+Program.Sub.Preflight.Start
+Variable.Global.iUB.Declare(Long,0)
+Variable.Global.iMatSeq.Declare(Long,0)
+variable.Global.iLabSeq.Declare(Long,0)
+Variable.Global.sRow.Declare(String)
+Variable.UDT.uRouter.Define("Router",String)
+Variable.UDT.uRouter.Define("Main_Desc",String)
+Variable.UDT.uRouter.Define("Main_PL",String)
+Variable.UDT.uRouter.Define("Main_Customer",String)
+Variable.UDT.uRouter.Define("Main_Quote",String)
+Variable.UDT.uRouter.Define("Seq",String)
+Variable.UDT.uRouter.Define("LMO",String)
+Variable.UDT.uRouter.Define("Cost",Float)
+Variable.UDT.uRouter.Define("Qty",Float)
+Variable.UDT.uRouter.Define("Part",String)
+variable.UDT.uRouter.define("WC",String)
+Variable.UDT.uRouter.Define("Seq_Desc",String)
+Variable.UDT.uRouter.Define("Runtime",Float)
+Variable.UDT.uRouter.Define("Tot_Cost",Float)
+Variable.UDT.uRouter.Define("Main_Qty",Float)
+Variable.UDT.uRouter.Define("Main_Date",String)
+Variable.UDT.uRouter.Define("RouterDesc",String)
+Variable.uGlobal.uRouter.Declare("uRouter")
+Variable.UDT.uBrkdwn.Define("Router",String,router)
+Variable.UDT.uBrkdwn.Define("MATERIAL_VALUE",Float,MATERIAL_VALUE)
+Variable.UDT.uBrkdwn.Define("Selling_Price",Float,Selling_Price)
+Variable.UDT.uBrkdwn.Define("OUTSIDE_SERVICE",Float,OUTSIDE_SERVICE)
+Variable.UDT.uBrkdwn.Define("SHIPPING",Float,SHIPPING)
+Variable.UDT.uBrkdwn.Define("LABOR_COST",Float,LABOR_COST)
+Variable.UDT.uBrkdwn.Define("CONT_MARGIN",Float,CONT_MARGIN)
+Variable.UDT.uBrkdwn.Define("FIXED_OVHD",Float,FIXED_OVHD)
+Variable.UDT.uBrkdwn.Define("TOTAL_COST",Float,TOTAL_COST)
+Variable.UDT.uBrkdwn.Define("GROSS_MARGIN",Float,GROSS_MARGIN)
+Variable.UDT.uBrkdwn.Define("SALES_COMMISSION",Float,SALES_COMMISSION)
+Variable.UDT.uBrkdwn.Define("TOTAL_V_COST",Float,TOTAL_V_COST)
+Variable.UDT.uBrkdwn.Define("V_OVHD",Float,V_OVHD)
+
+Variable.UDT.uBrkdwn.Define("Follow_UP",String,Follow_Up)
+Variable.UDT.uBrkdwn.Define("Priority_Flag",String,Priority_Flag)
+Variable.uGlobal.uBrkdwn.Declare("uBrkdwn")
+Variable.Global.sPriority.Declare(String)
+Variable.Global.sFollowUP.Declare(String)
+
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+F.Intrinsic.Control.SetErrorHandler("Main_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+
+'Quote 7467
+'TRT
+'5/25/16
+V.uGlobal.uRouter.Redim(-1,-1)
+
+F.ODBC.Connection!conX.OpenConnection(V.Ambient.PDSN,V.Ambient.PUser,V.Ambient.PPass)
+
+F.Intrinsic.UI.InvokeWaitDialog("Uploading Routers...")
+Function.Intrinsic.Control.CallSub(check_table)
+'Check our Directories first to make sure they exists.
+Function.Intrinsic.Control.CallSub(Check_dirs)
+
+'Now read our Global\Estimates\Pending to see if we've got any xls of xlsx spreads
+'this function then adds stuff to udt's then we can process them.
+Function.Intrinsic.Control.CallSub(Get_pending)
+
+'close program
+F.Intrinsic.Control.CallSub(Unload)
+
+Function.Intrinsic.Control.CallSub(Unload)
+F.Intrinsic.Control.Label("Main_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4362_Router_Import_XLS.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	Function.Intrinsic.Control.If(V.Ambient.IsInTaskScheduler,=,True)
+		F.Intrinsic.Debug.SetLA(V.Local.sError)
+	Function.Intrinsic.Control.Else
+		F.Intrinsic.UI.Msgbox(V.Local.sError)
+	Function.Intrinsic.Control.EndIf
+	Function.Intrinsic.Control.CallSub(Unload)
+Function.Intrinsic.Control.EndIf
+
+Program.Sub.Main.End
+
+Program.Sub.Unload.Start
+F.Intrinsic.Control.SetErrorHandler("Unload_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+
+F.Intrinsic.UI.CloseWaitDialog
+F.ODBC.Connection!conX.Close
+F.Intrinsic.Control.End
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Unload_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4362_Router_Import_XLS.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+		Function.Intrinsic.Control.If(V.Ambient.IsInTaskScheduler,=,True)
+		F.Intrinsic.Debug.SetLA(V.Local.sError)
+	Function.Intrinsic.Control.Else
+		F.Intrinsic.UI.Msgbox(V.Local.sError)
+	Function.Intrinsic.Control.EndIf
+	Function.Intrinsic.Control.End
+
+Function.Intrinsic.Control.EndIf
+
+Program.Sub.Unload.End
+
+Program.Sub.Check_Dirs.Start
+F.Intrinsic.Control.SetErrorHandler("Check_Dirs_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sDirBase.Declare(String)
+V.Local.sSubDir.Declare(String)
+V.Local.bExists.Declare(Boolean)
+
+'check to make sure the following directories exist
+'Global\Estimates\Pending
+'Global\Estimates\Errors
+'Global\Estimates\Errors\Upload_Fail
+'Global\Estimates\Errors\File_Type
+'Global\Estimates\Errors\Completed
+
+'make sure we have excel atleast
+F.Automation.MSExcel.CheckPresence(V.Local.bExists)
+F.Intrinsic.Control.If(V.Local.bExists,=,False)
+	F.Intrinsic.Control.If(V.Ambient.IsInTaskScheduler,=,True)
+		F.Intrinsic.Debug.SetLA("Excel isn't found on this machine.")
+		Function.Intrinsic.Control.CallSub(Unload)
+	Function.Intrinsic.Control.Else
+		F.Intrinsic.UI.Msgbox("Excel not found on machine.","MS Excel missing....")
+		Function.Intrinsic.Control.CallSub(Unload)
+	Function.Intrinsic.Control.EndIf
+Function.Intrinsic.Control.EndIf
+'Does Global\Estimates exists?
+F.Intrinsic.String.Build("{0}\Estimates",v.Caller.GlobalDir,v.Local.sDirBase)
+F.Intrinsic.File.DirExists(v.Local.sDirBase,v.Local.bExists)
+F.Intrinsic.Control.If(V.Local.bExists,=,False)
+	'create it
+	F.Intrinsic.File.CreateDir(v.Local.sDirBase)
+Function.Intrinsic.Control.EndIf
+
+'Does Global\Estimates\Pending exist?
+F.Intrinsic.String.Build("{0}\Pending",v.Local.sDirBase,v.Local.sSubDir)
+F.Intrinsic.File.DirExists(v.Local.sSubDir,v.Local.bExists)
+Function.Intrinsic.Control.If(V.Local.bExists,=,False)
+	F.Intrinsic.File.CreateDir(v.Local.sSubDir)
+Function.Intrinsic.Control.EndIf
+
+'Does Global\Estimates\Errors Exists?
+F.Intrinsic.String.Build("{0}\Errors",v.Local.sDirBase,v.Local.sSubDir)
+F.Intrinsic.File.DirExists(v.Local.sSubDir,v.Local.bExists)
+Function.Intrinsic.Control.If(V.Local.bExists,=,False)
+	F.Intrinsic.File.CreateDir(v.Local.sSubDir)
+Function.Intrinsic.Control.EndIf
+'does Global\Esimates\Errors\Upload_Fail exist?
+F.Intrinsic.String.Build("{0}\Errors\Upload_Fail",v.Local.sDirBase,v.Local.sSubDir)
+F.Intrinsic.File.DirExists(v.Local.sSubDir,v.Local.bExists)
+Function.Intrinsic.Control.If(V.Local.bExists,=,False)
+	F.Intrinsic.File.CreateDir(v.Local.sSubDir)
+Function.Intrinsic.Control.EndIf
+
+'does Global\Estimates\Errors\File_Type exist?
+F.Intrinsic.String.Build("{0}\Errors\File_Type",v.Local.sDirBase,v.Local.sSubDir)
+F.Intrinsic.File.DirExists(v.Local.sSubDir,v.Local.bExists)
+F.Intrinsic.Control.If(V.Local.bExists,=,False)
+	F.Intrinsic.File.CreateDir(v.Local.sSubDir)
+Function.Intrinsic.Control.EndIf
+
+'does Global\Errors\Completed exist?
+F.Intrinsic.String.Build("{0}\Errors\Completed",v.Local.sDirBase,v.Local.sSubDir)
+F.Intrinsic.File.DirExists(v.Local.sSubDir,v.Local.bExists)
+Function.Intrinsic.Control.If(V.Local.bExists,=,False)
+	F.Intrinsic.File.CreateDir(v.Local.sSubDir)
+Function.Intrinsic.Control.EndIf
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Check_Dirs_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4362_Router_Import_XLS.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	Function.Intrinsic.Control.If(V.Ambient.IsInTaskScheduler,=,True)
+		F.Intrinsic.Debug.SetLA(V.Local.sError)
+	Function.Intrinsic.Control.Else
+		F.Intrinsic.UI.Msgbox(V.Local.sError)
+	Function.Intrinsic.Control.EndIf
+	Function.Intrinsic.Control.CallSub(Unload)
+Function.Intrinsic.Control.EndIf
+
+Program.Sub.Check_Dirs.End
+
+Program.Sub.Get_Pending.Start
+F.Intrinsic.Control.SetErrorHandler("Get_Pending_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sDir.Declare(String)
+V.Local.bEx.Declare(Boolean)
+V.Local.sFileList.Declare(String)
+V.Local.sExtension.Declare(String)
+V.Local.iC.Declare(Long)
+V.Local.sMoveDir.Declare(String)
+V.Local.sFQN.Declare(String)
+V.Local.sMoveFQN.Declare(String)
+V.Local.iRet.Declare(Long)
+
+'This traverses through our Pending directory.
+
+'If nothing found, then end program.
+F.Intrinsic.String.Build("{0}\Estimates\Pending\",V.Caller.GlobalDir,V.Local.sDir)
+
+F.Intrinsic.String.Build("{0}\Estimates\Errors\File_Type\",V.Caller.GlobalDir,V.Local.sMoveDir)
+
+F.Intrinsic.File.GetFileList(V.Local.sDir,V.Local.sFileList)
+
+F.Intrinsic.Control.If(V.Local.sFileList.Trim,=,"")
+	Function.Intrinsic.Control.CallSub(Unload)
+Function.Intrinsic.Control.Else
+	'split our sfilelist
+	Function.Intrinsic.String.Split(V.Local.sFileList,":",V.Local.sFileList)
+	F.Intrinsic.Control.For(V.Local.ic,0,V.Local.sFileList.UBound,1)
+		'make sure that the extnesion is either xls or xlsx
+		F.Intrinsic.File.GetExtensionComponent(V.Local.sFileList(v.Local.iC),V.Local.sExtension)
+		Function.Intrinsic.Control.If(V.Local.sExtension.UCase,=,"XLS","OR",V.Local.sExtension.UCase,=,"XLSX")
+			'instead of reading spreadsheet cause that takes a long time, lets just read those 2 sheets we care about and as we are looping through the file,
+			'make our router upload, then 				
+			Function.Intrinsic.Control.CallSub(Read_excel,"Filename",V.Local.sFileList(v.Local.iC))
+			
+			'upload router then
+			Function.Intrinsic.Control.CallSub(Build_router)						
+			'build BOM. 
+			Function.Intrinsic.Control.CallSub(Build_BOM)				
+			
+
+
+			'verify router was created.
+			Function.Intrinsic.Control.CallSub(Verify_upload,"FileName",V.Local.sFileList(v.Local.iC))		
+		Function.Intrinsic.Control.Else
+			
+			'this is where it's a concat the filename back onto the directory.
+			F.Intrinsic.String.Build("{0}{1}",V.Local.sDir,V.Local.sFileList(v.Local.iC),V.Local.sFQN)
+			
+			'move this file to our Global\Estimates\Error\File_Type directory
+			'concat the filename onto this
+			F.Intrinsic.String.Build("{0}{1}",V.Local.sMoveDir,V.Local.sFileList(v.Local.iC),V.Local.sMoveFQN)
+			
+			'does move fqn exist
+			F.Intrinsic.File.Exists(V.Local.sMoveFQN,V.Local.bEx)
+			F.Intrinsic.Control.If(V.local.bEx,=,True)
+				F.Intrinsic.File.DeleteFile(V.Local.sMoveFQN)
+			F.Intrinsic.Control.EndIf
+			
+			F.Intrinsic.File.MoveFile(V.Local.sFQN,V.Local.sMoveFQN,V.Local.iRet)
+						
+			F.Intrinsic.Debug.SetLA("File Return From Move File: ",V.Local.iRet)
+		Function.Intrinsic.Control.EndIf
+		
+	F.Intrinsic.Control.Next(V.Local.ic)
+
+Function.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Get_Pending_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4362_Router_Import_XLS.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	Function.Intrinsic.Control.If(V.Ambient.IsInTaskScheduler,=,True)
+		F.Intrinsic.Debug.SetLA(V.Local.sError)
+	Function.Intrinsic.Control.Else
+		F.Intrinsic.UI.Msgbox(V.Local.sError)
+	Function.Intrinsic.Control.EndIf
+	Function.Intrinsic.Control.CallSub(Unload)
+Function.Intrinsic.Control.EndIf
+
+Program.Sub.Get_Pending.End
+
+Program.Sub.Read_Excel.Start
+F.Intrinsic.Control.SetErrorHandler("Read_Excel_Err")
+F.Intrinsic.Control.ClearErrors
+V.Local.sError.Declare(String)
+V.Local.sFileName.Declare(String)
+V.Local.iRows.Declare(Long)
+V.Local.iRow.Declare(Long)
+V.Local.sCust.Declare(String)
+V.Local.sRouter.Declare(String)
+V.Local.sPL.Declare(String)
+V.Local.sDate.Declare(String)
+v.Local.sRouterDesc.Declare(String) 
+
+'Material Sequences start at 10, increment by 10
+V.Global.iMatSeq.Set(0)
+
+'Labor Sequences start at 1000 increment by 1000
+'start at 0  that way when we add 100 on the first run we have our 1000 beginnin
+'6/7/16 probono request
+V.Global.iLabSeq.Set(0)
+
+V.Local.sFileName.Set(V.Args.filename)
+
+'clear out our udt again
+V.uGlobal.uRouter.Redim(-1,-1)
+F.Intrinsic.String.Build("{0}\Estimates\Pending\{1}",V.Caller.GlobalDir,V.Local.sFileName,V.Local.sFileName)
+F.Automation.MSExcel.CreateAppObject("MSEXCEL")
+F.Automation.MSExcel.CreateAppObject("MSEXCEL1")
+F.Automation.MSExcel.CreateAppObject("MSEXCEL2")
+
+F.Automation.MSExcel.OpenWorkbook("MSEXCEL","WBEXPORT",V.Local.sFileName)
+F.Automation.MSExcel.OpenWorkbook("MSEXCEL1","WBBOM",V.Local.sFileName)
+F.Automation.MSExcel.OpenWorkbook("MSEXCEL2","WBBRKDWN",V.Local.sFileName)
+
+'open worksheet Export Tab
+F.Automation.MSExcel.OpenWorksheet("WBEXPORT","EXPORT","12")
+F.Automation.MSExcel.OpenWorksheet("WBBOM","BOM","5")
+F.Automation.MSExcel.OpenWorksheet("WBBRKDWN","BRKDWN","1")
+
+'Get row Count.
+ F.Automation.MSExcel.RowCount("EXPORT",V.Local.iRows)
+'loop through until we hit our row counter. start at 3 as that is where our information is at.
+F.Intrinsic.Control.For(V.Local.iRow,3,V.Local.iRows,1)
+	F.Automation.MSExcel.ReadRow("EXPORT",V.Local.iRow,1,7,V.Global.sRow)
+	Function.Intrinsic.Control.If(V.Global.srow.Trim,<>,"")
+		F.Intrinsic.String.Split(V.Global.sRow,"*!*",V.Global.sRow)
+		'lmo column should not be blank, and if we are higher than 3 column
+		F.Intrinsic.Control.If(V.Global.sRow(0).Trim,<>,"","OR",V.Local.iRow,=,3,v.Local.iRow,=,4,v.Global.sRow(1),=,"PRIORITY",v.Global.sRow(1),=,"FOLLOW-UP")
+			F.Intrinsic.Control.If(V.Local.iRow,=,3)
+				'Row 3 Has Our Header information	
+				Function.Intrinsic.Control.If(V.Global.sRow(2).Trim,=,"")
+					'set it to today
+					V.global.sRow(2).Set(V.Ambient.Date.FormatMMDDYY)
+				Function.Intrinsic.Control.EndIf
+				'set our header information to use later.
+				V.Local.sDate.set(V.Global.Srow(2))
+				V.Local.sCust.Set(V.Global.sRow(3))
+				'the PL seems to be stored as a drop down with PL - description. Take left 2
+				V.Local.sPL.Set(V.Global.sRow(4).Left2)
+				V.Local.sRouter.Set(V.Global.sRow(5))
+			Function.Intrinsic.Control.ElseIf(v.Local.iRow,=,4) 
+				'does the column b say TOOL DESCRIPTION 
+				f.Intrinsic.String.UCase(V.Global.sRow(1),V.Global.sRow(1)) 
+				F.Intrinsic.Control.If(v.Global.sRow(1).Trim,=,"TOOL DESCRIPTION") 
+					'grab the next column in the router. That will be the Router Description 
+					V.Local.sRouterDesc.Set(v.Global.sRow(3))					
+				Function.Intrinsic.Control.EndIf
+			Function.Intrinsic.Control.Else
+				F.Intrinsic.Control.SelectCase(V.Global.sRow(0).Trim)
+					Function.Intrinsic.Control.Case("L")
+						Function.Intrinsic.Control.CallSub(Add_labor)
+					Function.Intrinsic.Control.Case("M")
+						Function.Intrinsic.Control.CallSub(Add_material)
+					Function.Intrinsic.Control.Case("CU")
+						'CU could also be a cutters value and that's part of material.
+						Function.Intrinsic.Control.CallSub(Add_material)
+					Function.Intrinsic.Control.Case("O")										
+						Function.Intrinsic.Control.CallSub(Add_outside)
+					Function.Intrinsic.Control.CaseElse
+						F.Intrinsic.Control.SelectCase(v.Global.sRow(1).Trim)
+							Function.Intrinsic.Control.Case("PRIORITY") 
+								v.Global.sPriority.Set(v.Global.sRow(2).Trim)
+							Function.Intrinsic.Control.Case("FOLLOW-UP")
+								f.Intrinsic.Control.If(v.Global.sRow(2).Trim,<>,"YES") 
+									v.Global.sFollowUP.Set("")
+								Function.Intrinsic.Control.Else 
+									v.Global.sFollowUP.Set("YES")
+								Function.Intrinsic.Control.EndIf							
+						Function.Intrinsic.Control.EndSelect														
+				Function.Intrinsic.Control.EndSelect
+			Function.Intrinsic.Control.EndIf
+		Function.Intrinsic.Control.EndIf
+	Function.Intrinsic.Control.EndIf
+	
+F.Intrinsic.Control.Next(V.Local.iRow)
+
+'read breakdwon sheet
+Function.Intrinsic.Control.CallSub(Read_brkdwn)
+
+F.Intrinsic.Variable.UDTSetMemberValue(V.uGlobal.uRouter!Main_Customer,V.Local.sCust)
+F.Intrinsic.Variable.UDTSetMemberValue(V.uGlobal.uRouter!Main_Date,V.Local.sDate.FormatMMDDYY)
+F.Intrinsic.Variable.UDTSetMemberValue(V.uGlobal.uRouter!Main_PL,V.Local.sPL)
+F.Intrinsic.Variable.UDTSetMemberValue(V.uGlobal.uRouter!Router,V.Local.sRouter)
+F.Intrinsic.Variable.UDTSetMemberValue(v.uGlobal.uRouter!RouterDesc,v.Local.sRouterDesc.Trim) 
+
+'set it to our uBrkdwn too
+F.Intrinsic.Variable.UDTSetMemberValue(V.uGlobal.uBrkdwn!Router,V.Local.sRouter)
+F.Intrinsic.Variable.UDTSetMemberValue(V.uGlobal.uRouter!Main_Qty,1)
+F.Intrinsic.Variable.UDTSetMemberValue(v.uGlobal.uBrkdwn!Follow_UP,v.Global.sFollowUP) 
+f.Intrinsic.Variable.UDTSetMemberValue(v.uGlobal.uBrkdwn!Priority_Flag,v.Global.sPriority)
+
+'close my excel object
+F.Automation.MSExcel.DestroyAllObjects("MSEXCEL","WBEXPORT","EXPORT")
+'hve to open it within 2 different. Otherwsie when i close msexcel it will error again if I try to close the other spreadsheet, and then it never closes it when I come back and open again for BOM
+F.Automation.MSExcel.DestroyAllObjects("MSEXCEL1","WBBOM","BOM")
+F.Automation.MSExcel.DestroyAllObjects("MSEXCEL2","WBBRKDWN","BRKDWN")
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Read_Excel_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4362_Router_Import_XLS.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	Function.Intrinsic.Control.If(V.Ambient.IsInTaskScheduler,=,True)
+		F.Intrinsic.Debug.SetLA(V.Local.sError)
+	Function.Intrinsic.Control.Else
+		F.Intrinsic.UI.Msgbox(V.Local.sError)
+	Function.Intrinsic.Control.EndIf
+	'destroy objects
+	F.Automation.MSExcel.DestroyAllObjects("MSEXCEL","WB","EXPORT")
+	F.Automation.MSExcel.DestroyAllObjects("MSEXCEL1","WBBOM","BOM")
+	F.Automation.MSExcel.DestroyAllObjects("MSEXCEL2","WBBRKDWN","BRKDWN")
+	Function.Intrinsic.Control.CallSub(Unload)	
+Function.Intrinsic.Control.EndIf
+
+Program.Sub.Read_Excel.End
+
+Program.Sub.Build_Router.Start
+F.Intrinsic.Control.SetErrorHandler("Build_Router_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.iLengthArray.Declare(String)
+V.Local.sPosArray.Declare(String)
+V.Local.sElements.Declare(String)
+V.Local.iC.Declare(Long)
+V.Local.sLine.Declare(String)
+V.Local.sUPL.Declare(String)
+V.Local.bEx.Declare(Boolean)
+V.Local.sFQN.Declare(String)
+V.Local.sSQL.Declare(String)
+
+'check to make sure the router doesn't already exist. cause we would do it earlier, but no, it's a pain in the uh huh
+F.Intrinsic.String.Build("{0}\ROUTERHD.txt",V.Caller.FilesDir,V.Local.sFQN)
+
+V.Local.sUPL.Set("")
+F.Intrinsic.String.Split("20*!*30*!*6*!*1*!*20*!*4*!*46*!*16*!*6*!*12*!*231*!*678*!*20","*!*",V.Local.iLengthArray)
+V.Local.sElements.Set("Router*!*RouterDesc*!*SEQ*!*LMO*!*PART*!*WC*!*SEQ_DESC*!*QTY*!*MAIN_CUSTOMER*!*MAIN_DATE*!*COST*!*MAIN_QTY*!*MAIN_PL")
+
+F.Intrinsic.Control.For(V.Local.iC,0,V.uGlobal.uRouter.UBound,1)
+	'check to make sure the router doesn't already exist. cause we would do it earlier, but no, it's a pain in the uh huh
+	F.Intrinsic.String.Build("Select Router From V_ROUTER_HEADER Where Router = '{0}'",V.uGlobal.uRouter(v.local.iC)!Router,V.Local.sSQL)
+
+	F.ODBC.Connection!conX.OpenLocalRecordsetRO("rst",V.Local.sSQL)
+	F.Intrinsic.Control.If(V.ODBC.conX!rst.EOF,=,False)
+		'means router exists don't update that.
+		F.ODBC.conX!rst.Close
+		F.Intrinsic.Control.ExitSub
+	F.Intrinsic.Control.EndIf
+	F.ODBC.conX!rst.Close
+	f.Intrinsic.Variable.UDTPositionToString(v.uGlobal.uRouter,v.Local.sElements,v.Local.iC,"*!*",v.Local.sLine)
+	F.Intrinsic.String.Split(V.Local.sLine,"*!*",V.Local.sLine)
+	F.Intrinsic.String.PositionalString(V.Local.sLine,V.Local.iLengthArray,V.Local.sLine)
+	Function.Intrinsic.Control.If(V.Local.sUPL.Trim,=,"")
+		V.Local.sUPL.Set(V.Local.sLine)
+	Function.Intrinsic.Control.Else
+		F.Intrinsic.String.Build("{0}{1}{2}",V.Local.sUPL,V.Ambient.NewLine,V.Local.sLine,V.Local.sUPL)
+Function.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.Next(V.Local.iC)
+Function.Intrinsic.File.Exists(V.Local.sFQN,V.Local.bEx)
+Function.Intrinsic.Control.If(V.Local.bEx,=,True)
+	F.Intrinsic.File.DeleteFile(V.Local.sFQN)
+Function.Intrinsic.Control.EndIf
+
+
+
+
+
+Function.Intrinsic.Control.If(V.Local.sUPL.Trim,<>,"")
+	F.Intrinsic.File.String2File(V.Local.sFQN,V.Local.sUPL)
+	'call upload.
+	F.Global.General.CallWrapperSync(50,"UPLRTRH/A/X")
+Function.Intrinsic.Control.EndIf
+F.Intrinsic.Control.ExitSub
+F.Intrinsic.Control.Label("Build_Router_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4362_Router_Import_XLS.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	Function.Intrinsic.Control.If(V.Ambient.IsInTaskScheduler,=,True)
+		F.Intrinsic.Debug.SetLA(V.Local.sError)
+	Function.Intrinsic.Control.Else
+		F.Intrinsic.UI.Msgbox(V.Local.sError)
+	Function.Intrinsic.Control.EndIf
+Function.Intrinsic.Control.EndIf
+Program.Sub.Build_Router.End
+
+Program.Sub.Read_BOM.Start
+F.Intrinsic.Control.SetErrorHandler("Read_BOM_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sMatSeq.Declare(String)
+V.Local.iRow.Declare(Long)
+V.Local.iRows.Declare(Long)
+V.Local.iUB.Declare(Long)
+V.Local.sRow.Declare(String)
+
+'read total row count of Bom Spreadsheet
+F.Automation.MSExcel.RowCount("BOM",V.Local.iRows)
+
+'read BOm Spreadsheet Sub and add to uRouter Sub.
+'we are passing our last Material Sequence through an arc.
+F.Intrinsic.Control.For(V.Local.iRow,3,V.Local.iRows,1)
+	
+	'read row of BOM Sheet 5
+	F.Automation.MSExcel.ReadRow("BOM",V.Local.iRow,1,13,V.Local.sRow)
+	
+	Function.Intrinsic.Control.If(V.Local.sRow.Trim,<>,"")
+		F.Intrinsic.String.Split(V.Local.sRow,"*!*",V.Local.sRow)
+		Function.Intrinsic.Control.If(V.Local.sRow(2).Trim,<>,"")
+			
+			'increase the size of our uRouter
+			Function.Intrinsic.Control.If(V.uGlobal.uRouter.UBound,=,-1)
+				V.Global.iUB.Set(0)
+				V.uGlobal.uRouter.Redim(0,V.Global.iUB)
+			Function.Intrinsic.Control.Else
+				F.Intrinsic.Math.Add(V.uGlobal.uRouter.UBound,1,V.Global.iUB)
+				V.uGlobal.uRouter.RedimPreserve(0,V.Global.iUB)
+			Function.Intrinsic.Control.EndIf
+			
+			'add 10 to our seq
+			F.Intrinsic.Math.Add(V.global.iMatSeq,10,V.global.iMatSeq)
+			F.Intrinsic.String.LPad(V.global.iMatSeq,"0",6,V.Local.sMatSeq)
+			
+			V.uGlobal.uRouter(v.Global.iUB)!LMO.Set("M")
+			V.uGlobal.uRouter(v.Global.iUB)!Seq.Set(V.Local.sMatSeq)
+			V.uGlobal.uRouter(v.Global.iUB)!Qty.Set(V.Local.sRow(1))
+			V.uGlobal.uRouter(v.Global.iUB)!Part.Set(V.Local.sRow(2))
+			V.uGlobal.uRouter(v.Global.iUB)!Cost.Set(V.Local.sRow(8))
+		Function.Intrinsic.Control.EndIf
+	Function.Intrinsic.Control.EndIf
+	
+F.Intrinsic.Control.next(V.Local.iRow)
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Read_BOM_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4362_Router_Import_XLS.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	Function.Intrinsic.Control.If(V.Ambient.IsInTaskScheduler,=,True)
+		F.Intrinsic.Debug.SetLA(V.Local.sError)
+	Function.Intrinsic.Control.Else
+		F.Intrinsic.UI.Msgbox(V.Local.sError)
+	Function.Intrinsic.Control.EndIf
+	F.Automation.MSExcel.DestroyAllObjects("MSEXCEL1","WBBOM","BOM")
+Function.Intrinsic.Control.EndIf
+
+Program.Sub.Read_BOM.End
+
+Program.Sub.Verify_Upload.Start
+F.Intrinsic.Control.SetErrorHandler("Verify_Upload_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sSQL.Declare(String)
+V.Local.bFail.Declare(Boolean)
+V.Local.iC.Declare(Long)
+V.Local.sFQN.Declare(String)
+V.Local.sMoveFile.Declare(String)
+V.Local.sRouter.Declare(String)
+V.Local.iRet.Declare(Long)
+V.Local.sDir.Declare(String)
+V.Local.bExists.Declare(Boolean)
+
+'bFail will be used to let us know it's failed or not.
+'if True that means it failed.
+V.Local.bFail.Set(False)
+
+'If nothing found, then end program.
+F.Intrinsic.String.Build("{0}\Estimates\Pending\{1}",V.Caller.GlobalDir,V.Args.FileName,V.Local.sDir)
+'loop through uRouterUDT
+'we have to make sure every line and each router was created.
+F.Intrinsic.Control.For(V.Local.iC,0,V.uGlobal.uRouter.UBound,1)
+	'check router and seq combination. IF exists we assume were golden.
+	'f can't read from the view becasue it apparently isn't updated in time from when uplaoding..........
+	F.Intrinsic.String.Build("Select Router, Line_Router From ROUTER_LINE WHERE ROUTER = '{0}' And Line_Router = '{1}'",V.uGlobal.uRouter(v.Local.iC)!Router,V.uGlobal.uRouter(v.Local.iC)!Seq,V.Local.sSQL)
+	F.ODBC.Connection!conX.OpenLocalRecordsetRO("rst",V.Local.sSQL)
+	F.Intrinsic.Control.If(V.ODBC.conx!rst.EOF,=,True)
+		'means our router didn't pass the upload.
+		V.Local.bFail.Set(True)
+	Function.Intrinsic.Control.Else
+		V.Local.bFail.Set(False)
+	Function.Intrinsic.Control.EndIf
+	F.ODBC.conX!rst.close
+	'it's in all of them, but store it this way.
+	V.Local.sRouter.Set(V.uGlobal.uRouter(v.Local.iC)!Router)
+	Function.Intrinsic.Control.If(V.Local.bFail,=,True)
+		F.Intrinsic.Control.ExitFor(V.Local.iC)
+	Function.Intrinsic.Control.EndIf
+F.Intrinsic.Control.Next(V.Local.iC)
+
+F.Intrinsic.Control.If(V.Local.bFail,=,True)
+	'means it didn't pass
+	'move it from the pending to the Errors\Upload_Fail
+	F.Intrinsic.String.Build("{0}\Estimates\Errors\Upload_Fail\{1}",V.Caller.GlobalDir,V.Args.Filename,V.Local.sMoveFile)
+Function.Intrinsic.Control.Else
+	'move directory will be completed.
+	F.Intrinsic.String.Build("{0}\Estimates\Errors\Completed\{1}",V.Caller.GlobalDir,V.Args.Filename,V.Local.sMoveFile)
+	'write record into table.
+	F.ODBC.Connection!conX.OpenLocalRecordsetRW("rstSave","Select * From GCG_3876_RTR_LOG")
+	F.ODBC.conX!rstSave.AddNew
+	F.ODBC.conX!rstSave.Set!Router(V.Local.sRouter.Trim)
+	F.ODBC.conX!rstSave.Set!PK_Location("")
+	F.ODBC.conX!rstSave.Set!PK_DATE_UPLOAD(V.Ambient.Now)
+	F.ODBC.conX!rstSave.Set!FILE_NAME_FQP(V.Local.sMoveFile)
+	F.ODBC.conX!rstSave.Update
+	F.ODBC.conX!rstsave.Close
+	
+	'also save our new brkdwn information.
+	'delete any matching router cause we don't want multiple.
+	F.Intrinsic.String.Build("Delete From GCG_3876_RTR_BRKDWN WHERE ROUTER = '{0}'",V.Local.sRouter.Trim,V.Local.sSQL)
+	F.ODBC.Connection!conX.Execute(V.Local.sSQL)
+	Function.Intrinsic.Control.If(V.uGlobal.uBrkdwn.UBound,<>,-1)
+			F.ODBC.Connection!conX.OpenLocalRecordsetRW("rstSaveB","Select Router,Selling_PRICE,Material_Value,Outside_Service,Shipping,Labor_Cost,Variable_OVHD AS V_OVHD,Total_Variable_Cost As Total_V_COST,Cont_Margin,Fixed_OVHD,Total_Cost,Gross_margin,Sales_Commission,Priority_Flag,Follow_Up From GCG_3876_RTR_BRKDWN")
+		F.Intrinsic.Variable.SaveUDTToRecordSet("conx","rstSaveB","v.uglobal.uBrkdwn")
+		F.ODBC.conX!rstSaveB.Close
+	Function.Intrinsic.Control.EndIf
+Function.Intrinsic.Control.EndIf
+
+'does move file exist? if it does delete it. cause it's about to be replaced.
+F.Intrinsic.File.Exists(V.Local.sMoveFile,V.Local.bExists)
+F.Intrinsic.Control.If(V.Local.bExists,=,True)
+	F.Intrinsic.File.DeleteFile(V.Local.sMoveFile)
+F.Intrinsic.Control.EndIf
+F.Intrinsic.File.MoveFile(V.Local.sDir,V.Local.sMoveFile,V.Local.iRet)
+F.Intrinsic.Debug.SetLA("Move file Long return: ",V.Local.iRet)
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Verify_Upload_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4362_Router_Import_XLS.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	Function.Intrinsic.Control.If(V.Ambient.IsInTaskScheduler,=,True)
+		F.Intrinsic.Debug.SetLA(V.Local.sError)
+	Function.Intrinsic.Control.Else
+		F.Intrinsic.UI.Msgbox(V.Local.sError)
+	Function.Intrinsic.Control.EndIf
+	Function.Intrinsic.Control.CallSub(Unload)
+Function.Intrinsic.Control.EndIf
+
+Program.Sub.Verify_Upload.End
+
+Program.Sub.Add_Material.Start
+F.Intrinsic.Control.SetErrorHandler("Add_Material_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.bAdd.Declare(Boolean,False)
+V.Local.sMatSeq.Declare(String)
+
+'Here we hit LMO = M or CU. If CU it should only hit cutters case.
+'badd will let us know whether or not we need to remove the udt size increase and decrease the mat  seq value,
+'since we have a few conditions that let us know whether or not to add it
+'increment our material sequence
+F.Intrinsic.Math.Add(V.Global.iMatSeq,10,V.global.iMatSeq)
+F.Intrinsic.String.LPad(V.Global.iMatSeq,"0",6,V.Local.sMatSeq)
+'increase the size of our uRouter
+Function.Intrinsic.Control.If(V.uGlobal.uRouter.UBound,=,-1)
+	V.Global.iUB.Set(0)
+	V.uGlobal.uRouter.Redim(0,V.Global.iUB)
+Function.Intrinsic.Control.Else
+	F.Intrinsic.Math.Add(V.uGlobal.uRouter.UBound,1,V.Global.iUB)
+	V.uGlobal.uRouter.RedimPreserve(0,V.Global.iUB)
+Function.Intrinsic.Control.EndIf
+'if Now Have to Read Column B Value.
+F.Intrinsic.Control.SelectCase(V.Global.sRow(1).Trim)
+'	Function.Intrinsic.Control.Case("FROM SHEET 2")
+'		F.Intrinsic.Control.If(V.global.sRow(2),>,0)
+'			'read bom sheet. 		
+'			'since we added this up top decrease it because the read_BOM will increase again on first run.
+'			v.uGlobal.uRouter.RedimPreserve(0,v.global.iUB.--)
+'			'subtract our labor sequence value
+'			F.Intrinsic.Math.Sub(V.global.iMatSeq,10,V.global.iMatSeq)
+''			Function.Intrinsic.Control.CallSub(Read_bom)
+'			'6/8/16, we no longe rneed to read the BOM tab and pull in New informatio.
+'			'From Conversation with Jerry through email. even tho the quote says something different
+'			V.Local.bAdd.Set(True)
+'		Function.Intrinsic.Control.EndIf
+'	Function.Intrinsic.Control.Case("MISC MATERIAL")
+'		'export tab
+'		'if col c > 0 Seq 890000 on Router, LMO = M Qty = 1 Cost = Column C
+'		Function.Intrinsic.Control.If(V.Global.sRow(2),>,0)
+'			V.uGlobal.uRouter(v.Global.iUB)!Part.Set("Misc Material")
+'			V.uGlobal.uRouter(v.Global.iUB)!Seq.Set("890000")
+'			'subtract our material sequence value
+'			F.Intrinsic.Math.Sub(V.global.iMatSeq,10,V.global.iMatSeq)
+'			V.uGlobal.urouter(v.Global.iUB)!LMO.Set("M")
+'			V.uGlobal.uRouter(v.Global.iUB)!Qty.Set(1)
+'			V.uGlobal.uRouter(v.Global.iUB)!Cost.Set(V.Global.sRow(2))
+'			V.Local.bAdd.Set(True)
+'		Function.Intrinsic.Control.EndIf
+'	Function.Intrinsic.Control.Case("CRATE")
+		'if col c > 0 read export tab, part = crate, lmo = m, column c = cost
+'		Function.Intrinsic.Control.If(V.Global.sRow(2),>,0)
+'			'sequence is going to be next seq valu
+'			V.uGlobal.uRouter(v.Global.iUB)!Seq.Set(V.Local.sMatSeq)
+'			V.uGlobal.uRouter(v.Global.iUB)!Part.Set("CRATE")
+'			V.uGlobal.urouter(v.Global.iUB)!LMO.Set("M")
+'			V.uGlobal.uRouter(v.Global.iUB)!Qty.Set(1)
+''			V.uGlobal.uRouter(v.Global.iUB)!Cost.Set(V.Global.sRow(2))
+'			V.Local.bAdd.Set(True)
+'		Function.Intrinsic.Control.EndIf
+	Function.Intrinsic.Control.Case("CUTTERS")
+		'WHEN COLUMN A = M AND B = CUTTERS AND C > 0 EXPORT TAB
+		'PART = CRATE
+		'SEQUENCE 995000
+		'LMO = M
+		'COLUMN C = COST
+		Function.Intrinsic.Control.If(V.Global.sRow(2),>,0)
+			V.uGlobal.urouter(v.Global.iUB)!Seq.Set("995000")
+			'subtract our material sequence value
+			F.Intrinsic.Math.Sub(V.global.iMatSeq,10,V.global.iMatSeq)
+			V.uGlobal.uRouter(v.Global.iUB)!Part.Set("CUTTERS")
+			V.uGlobal.urouter(v.Global.iUB)!LMO.Set("M")
+			V.uGlobal.uRouter(v.Global.iUB)!Qty.Set(1)
+			V.uGlobal.uRouter(v.Global.iUB)!Cost.Set(V.Global.sRow(2))
+			V.Local.bAdd.Set(True)
+		Function.Intrinsic.Control.EndIf		
+Function.Intrinsic.Control.EndSelect
+
+'If LMO = m and column E = 900100 and column g >0 then insert router sequence 900100, part = ship, lmo = m and cost =column g
+Function.Intrinsic.Control.If(V.Global.sRow(4).Trim,=,"900100")
+Function.Intrinsic.Control.AndIf(V.Global.sRow(6),>,0)
+	V.uGlobal.urouter(v.Global.iUB)!Seq.Set("900100")
+	'subtract our material sequence value
+	F.Intrinsic.Math.Sub(V.global.iMatSeq,10,V.global.iMatSeq)
+	V.uGlobal.uRouter(v.Global.iUB)!Part.Set("SHIP")
+	V.uGlobal.urouter(v.Global.iUB)!LMO.Set("M")
+	V.uGlobal.uRouter(v.Global.iUB)!Qty.Set(1)
+	V.uGlobal.uRouter(v.Global.iUB)!Cost.Set(V.Global.sRow(6))
+	V.Local.bAdd.Set(True)
+F.Intrinsic.Control.ElseIf(V.Global.sRow(4).Trim,=,"890000")
+F.Intrinsic.Control.AndIf(V.Global.sRow(6),>,0)
+	V.uGlobal.urouter(v.Global.iUB)!Seq.Set("890000")
+	'subtract our material sequence value
+	F.Intrinsic.Math.Sub(V.global.iMatSeq,10,V.global.iMatSeq)
+	V.uGlobal.uRouter(v.Global.iUB)!Part.Set("TOTAL EST MAT")
+	V.uGlobal.urouter(v.Global.iUB)!LMO.Set("M")
+	V.uGlobal.uRouter(v.Global.iUB)!Qty.Set(1)
+	V.uGlobal.uRouter(v.Global.iUB)!Cost.Set(V.Global.sRow(6))
+	V.Local.bAdd.Set(True)
+Function.Intrinsic.Control.EndIf
+'check our bAdd value. If it's False we are going to decrease our udt.
+Function.Intrinsic.Control.If(V.Local.bAdd,=,False)
+'	F.Intrinsic.Math.Sub(v.Global.iub,1,v.Global.iub)
+'	v.uGlobal.uRouter.RedimPreserve(0,v.global.iUB)	
+	v.uGlobal.uRouter.RedimPreserve(0,v.global.iUB.--)
+	
+'	v.uGlobal.uRouter.RedimPreserve(0,v.global.iUB)
+	'subtract our material sequence value
+	F.Intrinsic.Math.Sub(V.global.iMatSeq,10,V.global.iMatSeq)
+Function.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.ExitSub
+ 
+F.Intrinsic.Control.Label("Add_Material_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4362_Router_Import_XLS.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	Function.Intrinsic.Control.If(V.Ambient.IsInTaskScheduler,=,True)
+		F.Intrinsic.Debug.SetLA(V.Local.sError)
+	Function.Intrinsic.Control.Else
+		F.Intrinsic.UI.Msgbox(V.Local.sError)
+	Function.Intrinsic.Control.EndIf
+	'destroy objects
+	F.Automation.MSExcel.DestroyAllObjects("MSEXCEL","WB","EXPORT")
+	Function.Intrinsic.Control.CallSub(Unload)
+Function.Intrinsic.Control.EndIf
+
+Program.Sub.Add_Material.End
+
+Program.Sub.Add_Labor.Start
+F.Intrinsic.Control.SetErrorHandler("Add_Labor_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sLabSeq.Declare(String)
+'update 6/27. If hours are zero don't take this.
+F.Intrinsic.Control.If(V.Global.srow(4).Trim,>,0)
+
+	'add 100 to our sequence then properly format it
+	F.Intrinsic.Math.Add(V.Global.iLabSeq,1000,V.Global.iLabSeq)
+	F.Intrinsic.String.LPad(V.Global.iLabSeq,"0",6,V.Local.sLabSeq)
+	
+	'increase the size of our uRouter
+	Function.Intrinsic.Control.If(V.uGlobal.uRouter.UBound,=,-1)
+		V.Global.iUB.Set(0)
+		V.uGlobal.uRouter.Redim(0,V.Global.iUB)
+	Function.Intrinsic.Control.Else
+		F.Intrinsic.Math.Add(V.uGlobal.uRouter.UBound,1,V.Global.iUB)
+		V.uGlobal.uRouter.RedimPreserve(0,V.Global.iUB)
+	Function.Intrinsic.Control.EndIf
+	
+	V.uGlobal.uRouter(v.Global.iUB)!Seq.Set(V.Local.sLabSeq)
+	V.uGlobal.uRouter(v.Global.iUB)!LMO.Set(V.Global.sRow(0))
+	V.uGlobal.uRouter(v.Global.iUB)!WC.Set(V.Global.sRow(1))
+	V.uGlobal.uRouter(v.Global.iUB)!Seq_Desc.Set(V.Global.sRow(2))
+	V.uGlobal.uRouter(v.Global.iUB)!Cost.Set(V.Global.sRow(3))
+	V.uGlobal.uRouter(v.Global.iUB)!Qty.Set(V.Global.sRow(4))
+	V.uGlobal.uRouter(v.Global.iUB)!Tot_Cost.Set(V.Global.sRow(5))
+	
+F.Intrinsic.Control.endif
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Add_Labor_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4362_Router_Import_XLS.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	Function.Intrinsic.Control.If(V.Ambient.IsInTaskScheduler,=,True)
+		F.Intrinsic.Debug.SetLA(V.Local.sError)
+	Function.Intrinsic.Control.Else
+		F.Intrinsic.UI.Msgbox(V.Local.sError)
+	Function.Intrinsic.Control.EndIf
+	'destroy objects
+	F.Automation.MSExcel.DestroyAllObjects("MSEXCEL","WB","EXPORT")
+	Function.Intrinsic.Control.CallSub(Unload)
+Function.Intrinsic.Control.EndIf
+
+Program.Sub.Add_Labor.End
+
+Program.Sub.Add_Outside.Start
+F.Intrinsic.Control.SetErrorHandler("Add_Outside_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sLabSeq.Declare(String)
+V.Local.sSQL.Declare(String)
+
+'then we must read our custom table GCG_3876_OP_DESC.
+F.Intrinsic.String.Build("Select Op_CODE FROM GCG_3876_OP_DESC WHERE EXCEL_DESC = '{0}'",V.Global.sRow(1).Trim,V.Local.sSQL)
+F.ODBC.Connection!conX.OpenLocalRecordsetRO("rst",V.Local.sSQL)
+Function.Intrinsic.Control.If(V.ODBC.conX!rst.eof,<>,True)
+
+	'cost is in column 2 if zero ignore.
+	F.Intrinsic.Control.If(V.global.sRow(2),>,0)
+	
+		'pull in op_CODE
+		'increase the size of our uRouter
+		Function.Intrinsic.Control.If(V.uGlobal.uRouter.UBound,=,-1)
+			V.Global.iUB.Set(0)
+			V.uGlobal.uRouter.Redim(0,V.Global.iUB)
+		Function.Intrinsic.Control.Else
+			F.Intrinsic.Math.Add(V.uGlobal.uRouter.UBound,1,V.Global.iUB)
+			V.uGlobal.uRouter.RedimPreserve(0,V.Global.iUB)
+		Function.Intrinsic.Control.EndIf
+		
+		'Outside Sequences will just be the next sequence values for labor as it wasn't specified in the quote.
+		F.Intrinsic.Math.Add(V.global.iLabSeq,100,V.global.iLabSeq)
+		F.Intrinsic.String.LPad(V.global.iLabSeq,"0",6,V.Local.sLabSeq)
+		'according to Silas we are just going in the next sequence value. So I'm assuming it's going to be the with the labor sequences as those are after the labor.
+		'this sequencing for outside wasn't specified.
+		V.uGlobal.uRouter(v.Global.iUB)!Seq.Set(V.Local.sLabSeq)
+		V.uGlobal.uRouter(v.Global.iUB)!Part.Set(V.ODBC.conX!rst.FieldValTrim!Op_CODE)
+		V.uGlobal.uRouter(V.Global.iUB)!LMO.Set(V.Global.sRow(0).Trim)
+		V.uGlobal.uRouter(v.Global.iUB)!Seq_Desc.Set(V.Global.sRow(1).Trim)
+		V.uGlobal.uRouter(v.Global.iUB)!Qty.Set(1)
+
+		V.uGlobal.uRouter(v.Global.iUB)!Cost.Set(V.Global.sRow(2).Trim)
+
+	F.Intrinsic.Control.EndIf
+Function.Intrinsic.Control.Else
+	F.Intrinsic.Debug.SetLA("Op COde not found in custom table for ",V.Global.sRow(1).Trim,". Record was skipped.")
+Function.Intrinsic.Control.EndIf
+F.ODBC.conX!rst.Close
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Add_Outside_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4362_Router_Import_XLS.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	Function.Intrinsic.Control.If(V.Ambient.IsInTaskScheduler,=,True)
+		F.Intrinsic.Debug.SetLA(V.Local.sError)
+	Function.Intrinsic.Control.Else
+		F.Intrinsic.UI.Msgbox(V.Local.sError)
+	Function.Intrinsic.Control.EndIf
+	'destroy objects
+	F.Automation.MSExcel.DestroyAllObjects("MSEXCEL","WB","EXPORT")
+	Function.Intrinsic.Control.CallSub(Unload)
+Function.Intrinsic.Control.EndIf
+
+Program.Sub.Add_Outside.End
+
+Program.Sub.Read_Brkdwn.Start
+F.Intrinsic.Control.SetErrorHandler("Read_Brkdwn_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sRow.Declare(String)
+V.Local.iRow.Declare(Long)
+V.Local.iRows.Declare(Long)
+V.Local.sT.Declare(String)
+V.Local.iub.Declare(Long)
+
+'We've opened this worksheet up in the Read Excel sub
+'Get row Count
+
+'clear this out each time we get up in here to -1,-1 then to 0
+V.uGlobal.uBrkdwn.Redim(-1,-1)
+'we only need 1 space.
+V.uGlobal.uBrkdwn.Redim(0,0)
+
+F.Automation.MSExcel.RowCount("BRKDWN",V.Local.iRows)
+
+F.Intrinsic.Control.For(V.Local.iRow,1,V.Local.iRows,1)
+	F.Automation.MSExcel.ReadRow("BRKDWN",V.Local.iRow,1,3,V.Local.sRow)
+	F.Intrinsic.Control.If(V.Local.sRow.Trim,<>,"")
+		F.Intrinsic.String.Split(V.Local.sRow,"*!*",V.Local.sRow)
+		'read the second column
+'		ucase that and trim it
+		F.Intrinsic.String.UCase(V.Local.sRow(1).Trim,V.Local.sT)
+		Function.Intrinsic.Control.If(V.Local.sT.Trim,<>,"")
+			F.Intrinsic.Control.SelectCase(V.Local.sT)
+				F.Intrinsic.Control.Case("SELLING PRICE")
+					V.uGlobal.uBrkdwn(0)!Selling_Price.Set(V.Local.sRow(2))
+				Function.Intrinsic.Control.Case("MATERIAL")
+					V.uGlobal.uBrkdwn(0)!MATERIAL_VALUE.Set(V.Local.sRow(2))
+				Function.Intrinsic.Control.Case("OUTSIDE SERVICE")
+					V.uGlobal.uBrkdwn(0)!OUTSIDE_SERVICE.Set(V.Local.sRow(2))
+				Function.Intrinsic.Control.Case("SHIPPING")
+					V.uGlobal.uBrkdwn(0)!SHIPPING.Set(V.Local.sRow(2))
+				Function.Intrinsic.Control.Case("LABOR COST")
+					V.uGlobal.uBrkdwn(0)!LABOR_COST.Set(V.Local.sRow(2))
+				Function.Intrinsic.Control.Case("VARIABLE OVERHEAD")
+					V.uGlobal.uBrkdwn(0)!V_OVHD.Set(V.Local.sRow(2))
+				Function.Intrinsic.Control.Case("TOTAL VARIABLE COST")
+					V.uGlobal.uBrkdwn(0)!TOTAL_V_COST.Set(V.Local.sRow(2))
+				Function.Intrinsic.Control.Case("CONTRIBUTION MARGIN")
+					V.uGlobal.uBrkdwn(0)!CONT_MARGIN.Set(V.Local.sRow(2))
+				Function.Intrinsic.Control.Case("FIXED OVERHEAD")
+					V.uGlobal.uBrkdwn(0)!FIXED_OVHD.Set(V.Local.sRow(2))
+				Function.Intrinsic.Control.Case("TOTAL COST")
+					V.uGlobal.uBrkdwn(0)!TOTAL_COST.Set(V.Local.sRow(2))
+				Function.Intrinsic.Control.Case("GROSS MARGIN")
+					V.uGlobal.uBrkdwn(0)!GROSS_MARGIN.Set(V.Local.sRow(2))
+				Function.Intrinsic.Control.Case("SALES COMMISSION")
+					V.uGlobal.uBrkdwn(0)!SALES_COMMISSION.Set(V.Local.sRow(2))
+			Function.Intrinsic.Control.EndSelect
+		Function.Intrinsic.Control.EndIf
+	F.Intrinsic.Control.EndIf
+F.Intrinsic.Control.Next(V.Local.iRow)
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Read_Brkdwn_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4362_Router_Import_XLS.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	Function.Intrinsic.Control.If(V.Ambient.IsInTaskScheduler,=,True)
+		F.Intrinsic.Debug.SetLA(V.Local.sError)
+	Function.Intrinsic.Control.Else
+		F.Intrinsic.UI.Msgbox(V.Local.sError)
+	Function.Intrinsic.Control.EndIf
+Function.Intrinsic.Control.EndIf
+Program.Sub.Read_Brkdwn.End
+
+Program.Sub.BUILD_BOM.Start
+F.Intrinsic.Control.SetErrorHandler("BUILD_BOM_Err")
+F.Intrinsic.Control.ClearErrors
+V.Local.sError.Declare(String)
+V.Local.iLengthArray.Declare(String)
+V.Local.sPosArray.Declare(String)
+V.Local.sElements.Declare(String)
+V.Local.iC.Declare(Long)
+V.Local.sLine.Declare(String)
+V.Local.sUPL.Declare(String)
+V.Local.bEx.Declare(Boolean)
+V.Local.sFQN.Declare(String)
+V.Local.sSQL.Declare(String)
+v.Local.sRet.Declare(String) 
+v.Local.iR.Declare(Long) 
+F.Intrinsic.String.Build("{0}\BOMC.txt",v.Caller.FilesDir,v.Local.sFQN) 
+v.Local.sUPL.Set("")
+F.Intrinsic.String.Split("20*!*20*!*252","*!*",v.Local.iLengthArray)
+V.Local.sElements.Set("Router*!*PART*!*QTY")
+'only pull out M lines. 
+F.Intrinsic.Variable.UDTMultiSeek(v.uGlobal.uRouter!LMO,"M",v.Local.sRet) 
+F.Intrinsic.Control.If(v.Local.sRet.Trim,<>,"") 
+	f.Intrinsic.String.Split(v.Local.sret,"*!*",v.Local.sRet) 
+	F.Intrinsic.Control.For(v.Local.iR,0,v.Local.sRet.UBound,1) 
+		'does BOM exist. 
+		F.Intrinsic.String.Build("Select Parent From V_BOM_MSTR Where Parent = '{0}'",v.uGlobal.uRouter(v.Local.sret(v.Local.iR))!Router,v.Local.sSQL) 
+		F.ODBC.Connection!conX.OpenLocalRecordsetRO("rst",v.Local.sSQL) 
+		F.Intrinsic.Control.If(v.ODBC.conX!rst.EOF,=,False) 
+			f.ODBC.conX!rst.Close
+			f.Intrinsic.Control.ExitSub 
+		Function.Intrinsic.Control.EndIf
+		F.ODBC.conx!rst.Close
+		'grab the information from the udt at that specific ordinal. 
+		f.Intrinsic.Variable.UDTPositionToString(v.uGlobal.uRouter,v.Local.sElements,v.Local.sRet(v.Local.iR),"*!*",v.Local.sLine)
+		F.Intrinsic.String.Split(V.Local.sLine,"*!*",V.Local.sLine)
+		F.Intrinsic.String.PositionalString(V.Local.sLine,V.Local.iLengthArray,V.Local.sLine)
+		Function.Intrinsic.Control.If(V.Local.sUPL.Trim,=,"")
+			V.Local.sUPL.Set(V.Local.sLine)
+		Function.Intrinsic.Control.Else
+			F.Intrinsic.String.Build("{0}{1}{2}",V.Local.sUPL,V.Ambient.NewLine,V.Local.sLine,V.Local.sUPL)
+		Function.Intrinsic.Control.EndIf		
+	f.Intrinsic.Control.Next(v.Local.iR)
+	'ok now we get to build the file. 
+	F.Intrinsic.File.Exists(v.Local.sFQN,v.Local.bEx) 
+	Function.Intrinsic.Control.If(v.Local.bEx,=,True) 
+		f.Intrinsic.File.deleteFIle(v.Local.sFQN) 
+	Function.Intrinsic.Control.EndIf
+	'write file 
+	F.Intrinsic.File.String2File(v.Local.sFQN,v.Local.sUPL)	
+	'call the upload. 
+	f.Intrinsic.String.Build("{0}1UPLBOMC",v.Caller.CompanyCode,v.Local.sUPL)
+	f.Intrinsic.Task.LaunchGSSSync("UPL001A","-c",v.Local.sUPL)	
+'	F.Global.General.CallWrapperSync(50,"UPLBOMC/A") 	
+Function.Intrinsic.Control.EndIf
+F.Intrinsic.Control.ExitSub
+F.Intrinsic.Control.Label("BUILD_BOM_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4362_Router_Import_XLS.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+Program.Sub.BUILD_BOM.End
+
+Program.Sub.Check_Table.Start
+F.Intrinsic.Control.SetErrorHandler("Check_Table_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+v.Local.sSQL.Declare(String)
+v.Local.bEx1.Declare(Boolean) 
+v.Local.bEx2.Declare(Boolean)
+'check if a field exists. 
+F.ODBC.Connection!conX.OpenLocalRecordsetRO("rst","Select * From GCG_3876_RTR_BRKDWN") 
+'check to see if these 2 fields exist. 
+'Priority_Flag
+'Follow_Up 
+F.ODBC.conX!rst.FieldExists("Priority_Flag",v.Local.bEx1) 
+F.ODBC.conX!rst.FieldExists("Follow_UP",v.Local.bEx2) 
+F.ODBC.conX!rst.Close
+F.Intrinsic.Control.If(v.Local.bEx1,=,False) 
+	v.Local.sSQL.Set("ALTER TABLE GCG_3876_RTR_BRKDWN( ADD COLUMN Priority_Flag CHAR(10))") 
+	f.ODBC.Connection!conX.Execute(v.Local.sSQL)	
+Function.Intrinsic.Control.EndIf
+Function.Intrinsic.Control.If(v.Local.bEx2,=,False) 
+	v.Local.sSQL.Set("ALTER TABLE GCG_3876_RTR_BRKDWN( ADD COLUMN Follow_UP CHAR(3))") 
+	f.ODBC.Connection!conX.Execute(v.Local.sSQL)	
+Function.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Check_Table_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: GCG_4362_Router_Import_XLS.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	Function.Intrinsic.Control.If(V.Ambient.IsInTaskScheduler,=,True)
+		F.Intrinsic.Debug.SetLA(V.Local.sError)
+	Function.Intrinsic.Control.Else
+		F.Intrinsic.UI.Msgbox(V.Local.sError)
+	Function.Intrinsic.Control.EndIf
+	Function.Intrinsic.Control.CallSub(Unload)
+Function.Intrinsic.Control.EndIf
+Program.Sub.Check_Table.End
+
+Program.Sub.Comments.Start
+${$0$}$$}$$}$12:00:00 AM$}$False
+${$3$}$0$}$$}$0$}$-1$}$$}$12:00:00 AM$}$<b>Maintenance Program</b>
+Custom Table: GCG3876OP_DESC
+OP_CODE(char 6) Primary Key,
+EXCEL_DESC(CHAR 30)
+
+Program will have a screen that the user can select from existing op-codes in GSS, and assign the matching description that will be in the spreadsheets that are read. These values will be saved to a table that the gab program will read from to determine which OP Code to use based on the description in the excel sheet for outside operations(i.e. "STRESS FAB" = "STR1" for example.)
+
+Screen will have standard Op code browser that will look in Op_codes table and load OPERATION, DESCRIPTION to two textboxes. Description is the only one that is editable.
+
+A grid will be below the textboxes that shows existing records in the custom table, 2 columns, Op Code, Excel Description.
+
+Save Button will save the op_code and Description to the custom table, Op Code is the Primary Key.
+
+Program.Sub.Comments.End
+
