@@ -1,0 +1,819 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SyntaxEdit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Pages>
+    <DefaultPage>
+      <Header />
+      <Footer />
+    </DefaultPage>
+  </Pages>
+  <DisplayStrings />
+  <Selection>
+    <SelectionRect>
+      <Location>
+        <X>0</X>
+        <Y>462</Y>
+      </Location>
+      <Size>
+        <Width>24</Width>
+        <Height>15</Height>
+      </Size>
+      <X>0</X>
+      <Y>462</Y>
+      <Width>24</Width>
+      <Height>15</Height>
+    </SelectionRect>
+    <Options>UseColors OverwriteBlocks SelectLineOnTripleClick CopyLineWhenEmpty SelectWordOnCtrlClick</Options>
+  </Selection>
+  <Gutter>
+    <Options>PaintLineNumbers PaintBookMarks PaintLineModificators</Options>
+  </Gutter>
+  <Margin>
+    <Visible>false</Visible>
+  </Margin>
+  <LineStyles />
+  <LineSeparator />
+  <Printing>
+    <Footer />
+    <Header />
+  </Printing>
+  <WhiteSpace />
+  <TextSource>
+    <Position>
+      <X>0</X>
+      <Y>462</Y>
+    </Position>
+    <Lexer>
+      <Scheme>
+        <Author>Quantum Whale, LLC.</Author>
+        <Copyright>Copyright (c) 2004 - 2014 Quantum Whale LLC.</Copyright>
+        <FileType>gas</FileType>
+        <Version>1.5</Version>
+        <Styles>
+          <Style>
+            <Name>idents</Name>
+            <ForeColor>ControlText</ForeColor>
+          </Style>
+          <Style>
+            <Name>numbers</Name>
+            <ForeColor>ControlText</ForeColor>
+          </Style>
+          <Style>
+            <Name>reswords</Name>
+            <ForeColor>Blue</ForeColor>
+          </Style>
+          <Style>
+            <Name>comments</Name>
+            <ForeColor>Green</ForeColor>
+            <PlainText>true</PlainText>
+          </Style>
+          <Style>
+            <Name>xmlcomments</Name>
+            <ForeColor>Gray</ForeColor>
+          </Style>
+          <Style>
+            <Name>symbols</Name>
+            <ForeColor>WindowText</ForeColor>
+          </Style>
+          <Style>
+            <Name>whitespace</Name>
+            <ForeColor>WindowText</ForeColor>
+          </Style>
+          <Style>
+            <Name>strings</Name>
+            <ForeColor>Maroon</ForeColor>
+            <PlainText>true</PlainText>
+          </Style>
+          <Style>
+            <Name>directives</Name>
+            <ForeColor>Blue</ForeColor>
+          </Style>
+          <Style>
+            <Name>htmlparams</Name>
+            <ForeColor>Red</ForeColor>
+          </Style>
+          <Style>
+            <Name>syntax errors</Name>
+            <ForeColor>Red</ForeColor>
+          </Style>
+          <Style>
+            <Name>codes nippets</Name>
+            <ForeColor>Black</ForeColor>
+            <BackColor>255:180:228:180</BackColor>
+          </Style>
+          <Style>
+            <Name>GabReservedWords</Name>
+            <ForeColor>Blue</ForeColor>
+          </Style>
+          <Style>
+            <Name>GabTokenWithBrackets</Name>
+            <ForeColor>Gray</ForeColor>
+          </Style>
+          <Style>
+            <Name>GabFunctionIntrinsicDebug</Name>
+            <ForeColor>White</ForeColor>
+            <BackColor>Red</BackColor>
+            <FontStyle>Bold</FontStyle>
+            <PlainText>true</PlainText>
+          </Style>
+          <Style>
+            <Name>GabVariable</Name>
+            <ForeColor>Teal</ForeColor>
+          </Style>
+          <Style>
+            <Name>GabVariableSystemDefined</Name>
+            <ForeColor>Teal</ForeColor>
+            <FontStyle>Bold Italic</FontStyle>
+          </Style>
+          <Style>
+            <Name>GabGui</Name>
+            <ForeColor>OrangeRed</ForeColor>
+          </Style>
+          <Style>
+            <Name>GabProgramSubStartEnd</Name>
+            <ForeColor>Black</ForeColor>
+            <BackColor>LightGray</BackColor>
+            <FontStyle>Bold</FontStyle>
+            <PlainText>true</PlainText>
+          </Style>
+        </Styles>
+      </Scheme>
+    </Lexer>
+    <TextStrings>
+      <Lines>
+        <string>Program.Sub.ScreenSU.Start</string>
+        <string>gui.Form..create</string>
+        <string>gui.Form..caption("Outside Desc Maint.")</string>
+        <string>gui.Form..size(7035,5895)</string>
+        <string>gui.Form..minx(0)</string>
+        <string>gui.Form..miny(0)</string>
+        <string>gui.Form..position(0,0)</string>
+        <string>gui.Form..event(unload,form_unload)</string>
+        <string>gui.Form..alwaysontop(False)</string>
+        <string>gui.Form..fontname("Arial")</string>
+        <string>gui.Form..fontsize(8)</string>
+        <string>gui.Form..forecolor(0)</string>
+        <string>gui.Form..fontstyle(,,,,)</string>
+        <string>gui.Form..BackColor(-2147483633)</string>
+        <string>gui.Form..controlbox(True)</string>
+        <string>gui.Form..maxbutton(False)</string>
+        <string>gui.Form..minbutton(True)</string>
+        <string>gui.Form..mousepointer(0)</string>
+        <string>gui.Form..moveable(True)</string>
+        <string>gui.Form..sizeable(False)</string>
+        <string>gui.Form..ShowInTaskBar(True)</string>
+        <string>gui.Form..titlebar(True)</string>
+        <string>gui.Form.lbl1.create(label,"Outside Code",True,1935,255,1,200,200,True,0,Arial,8,-2147483633,0)</string>
+        <string>gui.Form.lbl1.defaultvalue("")</string>
+        <string>gui.Form.lbl1.controlgroup(0)</string>
+        <string>gui.Form.lbl2.create(label,"Description",True,1935,255,1,3300,245,True,0,Arial,8,-2147483633,0)</string>
+        <string>gui.Form.lbl2.defaultvalue("")</string>
+        <string>gui.Form.lbl2.controlgroup(0)</string>
+        <string>gui.Form.txtOP.create(textbox,"",True,2325,300,0,200,445,False,0,Arial,8,-2147483643,1)</string>
+        <string>gui.Form.txtOP.maxLength(20)</string>
+        <string>gui.Form.txtOP.defaultvalue("")</string>
+        <string>gui.Form.txtOP.controlgroup(0)</string>
+        <string>gui.Form.cmdOpBrowser.create(button)</string>
+        <string>gui.Form.cmdOpBrowser.caption("^")</string>
+        <string>gui.Form.cmdOpBrowser.visible(True)</string>
+        <string>gui.Form.cmdOpBrowser.size(465,375)</string>
+        <string>gui.Form.cmdOpBrowser.zorder(0)</string>
+        <string>gui.Form.cmdOpBrowser.position(2580,415)</string>
+        <string>gui.Form.cmdOpBrowser.enabled(True)</string>
+        <string>gui.Form.cmdOpBrowser.fontname("Arial")</string>
+        <string>gui.Form.cmdOpBrowser.fontsize(8)</string>
+        <string>gui.Form.cmdOpBrowser.event(click,cmdopbrowser_click)</string>
+        <string>gui.Form.cmdOpBrowser.defaultvalue("")</string>
+        <string>gui.Form.cmdOpBrowser.controlgroup(0)</string>
+        <string>gui.Form.txtDesc.create(textbox,"",True,3150,300,0,3305,450,True,0,Arial,8,-2147483643,1)</string>
+        <string>gui.Form.txtDesc.event(gotfocus,txtdesc_gotfocus)</string>
+        <string>gui.Form.txtDesc.defaultvalue("")</string>
+        <string>gui.Form.txtDesc.controlgroup(0)</string>
+        <string>gui.Form.cmdSave.create(button)</string>
+        <string>gui.Form.cmdSave.caption("Save")</string>
+        <string>gui.Form.cmdSave.visible(True)</string>
+        <string>gui.Form.cmdSave.size(855,345)</string>
+        <string>gui.Form.cmdSave.zorder(0)</string>
+        <string>gui.Form.cmdSave.position(200,890)</string>
+        <string>gui.Form.cmdSave.enabled(True)</string>
+        <string>gui.Form.cmdSave.fontname("Arial")</string>
+        <string>gui.Form.cmdSave.fontsize(8)</string>
+        <string>gui.Form.cmdSave.event(click,cmdSave_click)</string>
+        <string>gui.Form.cmdSave.defaultvalue("")</string>
+        <string>gui.Form.cmdSave.controlgroup(0)</string>
+        <string>gui.Form.cmdDelete.create(button)</string>
+        <string>gui.Form.cmdDelete.caption("Delete")</string>
+        <string>gui.Form.cmdDelete.visible(True)</string>
+        <string>gui.Form.cmdDelete.size(855,345)</string>
+        <string>gui.Form.cmdDelete.zorder(0)</string>
+        <string>gui.Form.cmdDelete.position(1120,890)</string>
+        <string>gui.Form.cmdDelete.enabled(True)</string>
+        <string>gui.Form.cmdDelete.fontname("Arial")</string>
+        <string>gui.Form.cmdDelete.fontsize(8)</string>
+        <string>gui.Form.cmdDelete.event(click,cmddelete_click)</string>
+        <string>gui.Form.cmdDelete.defaultvalue("")</string>
+        <string>gui.Form.cmdDelete.controlgroup(0)</string>
+        <string>gui.Form.gsfgGrid.create(gsflexgrid)</string>
+        <string>gui.Form.gsfgGrid.FixedRows(0)</string>
+        <string>gui.Form.gsfgGrid.FixedCols(0)</string>
+        <string>gui.Form.gsfgGrid.visible(True)</string>
+        <string>gui.Form.gsfgGrid.size(6315,3915)</string>
+        <string>gui.Form.gsfgGrid.zorder(0)</string>
+        <string>gui.Form.gsfgGrid.position(200,1290)</string>
+        <string>gui.Form.gsfgGrid.enabled(True)</string>
+        <string>gui.Form.gsfgGrid.event(commandclick,gsfggrid_commandclick)</string>
+        <string />
+        <string />
+        <string>Program.Sub.ScreenSU.End</string>
+        <string />
+        <string>Program.Sub.Preflight.Start</string>
+        <string />
+        <string>Variable.UDT.uGrid.Define("OP_CODE",String,OP_CODE)</string>
+        <string>Variable.UDT.uGrid.Define("EXCEL_DESC",String,EXCEL_DESC)</string>
+        <string>Variable.uGlobal.uGrid.Declare("uGrid")</string>
+        <string>Program.Sub.Preflight.End</string>
+        <string />
+        <string>Program.Sub.cmdOpBrowser_Click.Start</string>
+        <string>F.Intrinsic.Control.SetErrorHandler("Preflight_Err")</string>
+        <string>F.Intrinsic.Control.ClearErrors</string>
+        <string />
+        <string>V.Local.sError.Declare(String)</string>
+        <string>V.Local.sTitle.Declare(String)</string>
+        <string>V.Local.iWidth.Declare(Long)</string>
+        <string>V.Local.sRet.Declare(String)</string>
+        <string />
+        <string>'Show them the OP Code Browser for Outside Operations only?</string>
+        <string>'OP_CODES table Machine is Op CODE and Operation is the Vendor</string>
+        <string>'FOr outside that's the code we want. WE WANT MACHINE</string>
+        <string>'CAUSE IN THE SCRIPT OR EXCEL WE ARE GOING AGAINST OUTSIDE CODES.</string>
+        <string />
+        <string>'set titles</string>
+        <string>F.Intrinsic.String.Split("Outside Code*!*Vendor*!*Description","*!*",v.Local.sTitle)</string>
+        <string>F.Intrinsic.String.Split("2000*!*1000*!*3000","*!*",v.Local.iWidth)</string>
+        <string />
+        <string>F.Intrinsic.UI.SetBrowserHotTypeAhead(True)</string>
+        <string>F.Intrinsic.UI.Browser("Select OP Code","conX","Select Machine,Operation,Description From V_OP_CODES Where LMO = 'O' Order By Machine",v.Local.sTitle,v.Local.iWidth,2000,10500,v.Local.sRet)</string>
+        <string />
+        <string>F.Intrinsic.Control.If(v.Local.sRet.Trim,&lt;&gt;,"***CANCEL***")</string>
+        <string>	F.Intrinsic.String.Split(v.Local.sRet,"*!*",v.Local.sRet)</string>
+        <string>	Function.Intrinsic.Control.BlockEvents</string>
+        <string>	Gui.Form.txtOP.Text(v.Local.sRet(0).Trim)</string>
+        <string>	'find desc from custom table</string>
+        <string>	Function.Intrinsic.Control.CallSub(Get_desc)</string>
+        <string>	Function.Intrinsic.Control.UnBlockEvents</string>
+        <string>F.Intrinsic.Control.EndIf</string>
+        <string />
+        <string>F.Intrinsic.Control.ExitSub</string>
+        <string />
+        <string>F.Intrinsic.Control.Label("Preflight_Err")</string>
+        <string>F.Intrinsic.Control.If(V.Ambient.ErrorNumber,&lt;&gt;,0)</string>
+        <string>	Function.Intrinsic.String.Concat("Project: GCG_3876_OP_DESC_MAINT.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)</string>
+        <string>	F.Intrinsic.UI.Msgbox(V.Local.sError)</string>
+        <string>	Function.Intrinsic.Control.CallSub(Form_unload)</string>
+        <string>Function.Intrinsic.Control.EndIf</string>
+        <string />
+        <string />
+        <string>Program.Sub.cmdOpBrowser_Click.End</string>
+        <string />
+        <string>Program.Sub.cmdSave_Click.Start</string>
+        <string>F.Intrinsic.Control.SetErrorHandler("cmdOpBrowser_Click_Err")</string>
+        <string>F.Intrinsic.Control.ClearErrors</string>
+        <string />
+        <string>V.Local.sError.Declare(String)</string>
+        <string>V.Local.sSQL.Declare(String)</string>
+        <string>V.Local.sOP.Declare(String)</string>
+        <string />
+        <string>V.Local.sOP.Set(V.Screen.Form!txtOP.Text)</string>
+        <string />
+        <string>F.Intrinsic.Control.If(V.Local.sOP.Trim,=,"")</string>
+        <string>	F.Intrinsic.UI.Msgbox("OP Code cannot be blank. Verify input.","Error...")</string>
+        <string>	F.Intrinsic.Control.ExitSub</string>
+        <string>Function.Intrinsic.Control.EndIf</string>
+        <string />
+        <string />
+        <string>Function.Intrinsic.Control.BlockEvents</string>
+        <string />
+        <string>F.Intrinsic.String.Build("Select * From GCG_3876_OP_DESC Where OP_CODE = '{0}'",V.Local.sOP.Trim,V.Local.sSQL)</string>
+        <string />
+        <string>F.ODBC.Connection!conX.OpenLocalRecordsetRW("rstSave",V.Local.sSQL)</string>
+        <string />
+        <string>F.Intrinsic.Control.If(V.ODBC.conX!rstSave.EOF,=,True)</string>
+        <string>	F.ODBC.conX!rstSave.AddNew</string>
+        <string>	F.ODBC.conX!rstSave.Set!OP_CODE(V.Local.sOP.Trim)</string>
+        <string>Function.Intrinsic.Control.EndIf</string>
+        <string>F.ODBC.conX!rstSave.Set!Excel_Desc(V.Screen.Form!txtDesc.Text)</string>
+        <string />
+        <string>F.ODBC.conX!rstSave.Update</string>
+        <string />
+        <string>F.ODBC.conX!rstSave.Close</string>
+        <string />
+        <string>F.Intrinsic.Control.CallSub(Load_grid)</string>
+        <string />
+        <string />
+        <string>Function.Intrinsic.Control.UnBlockEvents</string>
+        <string />
+        <string>'clear out the forms. set focus back to the browser</string>
+        <string>Gui.Form.txtDesc.Text("")</string>
+        <string>Gui.Form.txtOP.Text("")</string>
+        <string>Gui.Form.cmdOpBrowser.SetFocus</string>
+        <string />
+        <string>F.Intrinsic.Control.ExitSub</string>
+        <string />
+        <string>F.Intrinsic.Control.Label("cmdOpBrowser_Click_Err")</string>
+        <string>F.Intrinsic.Control.If(V.Ambient.ErrorNumber,&lt;&gt;,0)</string>
+        <string>	Function.Intrinsic.String.Concat("Project: GCG_3876_OP_DESC_MAINT.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)</string>
+        <string>	F.Intrinsic.UI.Msgbox(V.Local.sError)</string>
+        <string>	Function.Intrinsic.Control.CallSub(Form_unload)</string>
+        <string>Function.Intrinsic.Control.EndIf</string>
+        <string />
+        <string />
+        <string>Program.Sub.cmdSave_Click.End</string>
+        <string />
+        <string>Program.Sub.Form_UnLoad.Start</string>
+        <string>F.Intrinsic.Control.SetErrorHandler("txtDesc_GotFocus_Err")</string>
+        <string>F.Intrinsic.Control.ClearErrors</string>
+        <string />
+        <string>V.Local.sError.Declare(String)</string>
+        <string />
+        <string />
+        <string>F.ODBC.Connection!conX.Close</string>
+        <string>F.Intrinsic.Control.End</string>
+        <string />
+        <string>F.Intrinsic.Control.ExitSub</string>
+        <string />
+        <string>F.Intrinsic.Control.Label("txtDesc_GotFocus_Err")</string>
+        <string>F.Intrinsic.Control.If(V.Ambient.ErrorNumber,&lt;&gt;,0)</string>
+        <string>	Function.Intrinsic.String.Concat("Project: GCG_3876_OP_DESC_MAINT.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)</string>
+        <string>	F.Intrinsic.UI.Msgbox(V.Local.sError)</string>
+        <string>	Function.Intrinsic.Control.End</string>
+        <string />
+        <string>Function.Intrinsic.Control.EndIf</string>
+        <string />
+        <string />
+        <string>Program.Sub.Form_UnLoad.End</string>
+        <string />
+        <string>Program.Sub.Main.Start</string>
+        <string>F.Intrinsic.Control.SetErrorHandler("Preflight_Err")</string>
+        <string>F.Intrinsic.Control.ClearErrors</string>
+        <string />
+        <string>V.Local.sError.Declare(String)</string>
+        <string />
+        <string>F.ODBC.Connection!conX.OpenConnection(V.Ambient.PDSN,V.Ambient.PUser,V.Ambient.PPass)</string>
+        <string />
+        <string>F.Intrinsic.Control.CallSub(Buildstyle)</string>
+        <string>F.Intrinsic.Control.CallSub(Load_grid)</string>
+        <string />
+        <string>Gui.Form..Show</string>
+        <string>Gui.Form.cmdOpBrowser.SetFocus</string>
+        <string />
+        <string />
+        <string>F.Intrinsic.Control.ExitSub</string>
+        <string />
+        <string>F.Intrinsic.Control.Label("Preflight_Err")</string>
+        <string>F.Intrinsic.Control.If(V.Ambient.ErrorNumber,&lt;&gt;,0)</string>
+        <string>	Function.Intrinsic.String.Concat("Project: GCG_3876_OP_DESC_MAINT.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)</string>
+        <string>	F.Intrinsic.UI.Msgbox(V.Local.sError)</string>
+        <string>	Function.Intrinsic.Control.CallSub(Form_unload)</string>
+        <string>Function.Intrinsic.Control.EndIf</string>
+        <string />
+        <string />
+        <string>Program.Sub.Main.End</string>
+        <string />
+        <string>Program.Sub.txtDesc_GotFocus.Start</string>
+        <string>F.Intrinsic.Control.SetErrorHandler("Main_Err")</string>
+        <string>F.Intrinsic.Control.ClearErrors</string>
+        <string />
+        <string>V.Local.sError.Declare(String)</string>
+        <string />
+        <string />
+        <string>'selete all text in textbxo</string>
+        <string>gui.Form.txtDesc.SelectAll</string>
+        <string />
+        <string />
+        <string>F.Intrinsic.Control.ExitSub</string>
+        <string />
+        <string>F.Intrinsic.Control.Label("Main_Err")</string>
+        <string>F.Intrinsic.Control.If(V.Ambient.ErrorNumber,&lt;&gt;,0)</string>
+        <string>	Function.Intrinsic.String.Concat("Project: GCG_3876_OP_DESC_MAINT.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)</string>
+        <string>	F.Intrinsic.UI.Msgbox(V.Local.sError)</string>
+        <string>	Function.Intrinsic.Control.CallSub(form_unload)</string>
+        <string>Function.Intrinsic.Control.EndIf</string>
+        <string />
+        <string />
+        <string>Program.Sub.txtDesc_GotFocus.End</string>
+        <string />
+        <string>Program.Sub.Get_Desc.Start</string>
+        <string>F.Intrinsic.Control.SetErrorHandler("Get_Desc_Err")</string>
+        <string>F.Intrinsic.Control.ClearErrors</string>
+        <string />
+        <string>V.Local.sError.Declare(String)</string>
+        <string>v.Local.sSQL.Declare(String)</string>
+        <string>v.Local.sOP.Declare(String)</string>
+        <string />
+        <string>v.Local.sOP.Set(V.Screen.Form!txtOP.Text)</string>
+        <string />
+        <string>f.Intrinsic.Control.If(V.Local.sOP.Trim,=,"")</string>
+        <string>	f.Intrinsic.Control.ExitSub</string>
+        <string>Function.Intrinsic.Control.EndIf</string>
+        <string />
+        <string>f.Intrinsic.String.Build("Select Excel_Desc From GCG_3876_OP_Desc Where OP_CODE = '{0}'",V.Local.sOP.Trim,V.Local.sSQL)</string>
+        <string>f.ODBC.Connection!conX.OpenLocalRecordsetRO("rst",V.Local.sSQL)</string>
+        <string />
+        <string>F.Intrinsic.Control.If(V.ODBC.conX!rst.EOF,&lt;&gt;,True)</string>
+        <string>	gui.Form.txtDesc.Text(V.ODBC.conX!rst.FieldValTrim!Excel_Desc)</string>
+        <string>	gui.Form.txtDesc.SetFocus</string>
+        <string>Function.Intrinsic.Control.Else</string>
+        <string>	gui.Form.txtDesc.Text("")</string>
+        <string>Function.Intrinsic.Control.EndIf</string>
+        <string />
+        <string>f.ODBC.conX!rst.Close</string>
+        <string />
+        <string />
+        <string />
+        <string>F.Intrinsic.Control.ExitSub</string>
+        <string />
+        <string>F.Intrinsic.Control.Label("Get_Desc_Err")</string>
+        <string>F.Intrinsic.Control.If(V.Ambient.ErrorNumber,&lt;&gt;,0)</string>
+        <string>	Function.Intrinsic.String.Concat("Project: GCG_3876_OP_DESC_MAINT.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)</string>
+        <string>	F.Intrinsic.UI.Msgbox(V.Local.sError)</string>
+        <string>Function.Intrinsic.Control.EndIf</string>
+        <string />
+        <string />
+        <string>Program.Sub.Get_Desc.End</string>
+        <string />
+        <string>program.sub.cmddelete_click.start</string>
+        <string>F.Intrinsic.Control.SetErrorHandler("cmddelete_click_Err")</string>
+        <string>F.Intrinsic.Control.ClearErrors</string>
+        <string />
+        <string>V.Local.sError.Declare(String)</string>
+        <string>V.Local.sOp.Declare(String)</string>
+        <string>V.Local.sSQL.Declare(String)</string>
+        <string />
+        <string />
+        <string />
+        <string>V.Local.sOP.Set(V.Screen.Form!txtOP.Text)</string>
+        <string />
+        <string>F.Intrinsic.Control.If(V.Local.sOP.Trim,=,"")</string>
+        <string>	F.Intrinsic.Control.ExitSub</string>
+        <string>Function.Intrinsic.Control.EndIf</string>
+        <string />
+        <string>Function.Intrinsic.Control.BlockEvents</string>
+        <string />
+        <string>F.Intrinsic.String.Build("Delete From GCG_3876_OP_DESC Where OP_CODE = '{0}'",V.Local.sOP.Trim,V.Local.sSQL)</string>
+        <string />
+        <string>F.ODBC.Connection!conX.Execute(V.Local.sSQL)</string>
+        <string />
+        <string>Gui.Form.txtDesc.Text("")</string>
+        <string>Gui.Form.txtOP.Text("")</string>
+        <string />
+        <string>'load grid again</string>
+        <string>F.Intrinsic.Control.CallSub(Load_grid)</string>
+        <string />
+        <string>Function.Intrinsic.Control.UnBlockEvents</string>
+        <string />
+        <string>F.Intrinsic.Control.ExitSub</string>
+        <string />
+        <string>F.Intrinsic.Control.Label("cmddelete_click_Err")</string>
+        <string>F.Intrinsic.Control.If(V.Ambient.ErrorNumber,&lt;&gt;,0)</string>
+        <string>	Function.Intrinsic.String.Concat("Project: GCG_3876_OP_DESC_MAINT.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)</string>
+        <string>	F.Intrinsic.UI.Msgbox(V.Local.sError)</string>
+        <string>	F.Intrinsic.Control.CallSub(Form_unload)</string>
+        <string />
+        <string>Function.Intrinsic.Control.EndIf</string>
+        <string />
+        <string />
+        <string>program.sub.cmddelete_click.End</string>
+        <string />
+        <string>program.sub.gsfggrid_commandclick.start</string>
+        <string>F.Intrinsic.Control.SetErrorHandler("gsfggrid_commandclick_Err")</string>
+        <string>F.Intrinsic.Control.ClearErrors</string>
+        <string />
+        <string>V.Local.sError.Declare(String)</string>
+        <string>V.Local.sRow.Declare(String)</string>
+        <string />
+        <string />
+        <string>'read row and set to our texboxes.</string>
+        <string>F.Intrinsic.Control.If(V.Args.key,&gt;,0)</string>
+        <string>	Gui.Form.gsfgGrid.ReadRow(V.Args.key,V.Local.sRow)</string>
+        <string>	F.Intrinsic.Control.If(V.Local.sRow.Trim,&lt;&gt;,"")</string>
+        <string>		F.Intrinsic.String.Split(V.Local.sRow,"*!*",V.Local.sRow)</string>
+        <string>		Gui.Form.txtOP.Text(V.Local.sRow(0).Trim)</string>
+        <string>		Gui.Form.txtDesc.Text(V.Local.sRow(1).Trim)</string>
+        <string />
+        <string>	F.Intrinsic.Control.EndIf</string>
+        <string>	</string>
+        <string>F.Intrinsic.Control.EndIf</string>
+        <string />
+        <string />
+        <string />
+        <string>F.Intrinsic.Control.ExitSub</string>
+        <string />
+        <string>F.Intrinsic.Control.Label("gsfggrid_commandclick_Err")</string>
+        <string>F.Intrinsic.Control.If(V.Ambient.ErrorNumber,&lt;&gt;,0)</string>
+        <string>	Function.Intrinsic.String.Concat("Project: GCG_3876_OP_DESC_MAINT.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)</string>
+        <string>	F.Intrinsic.UI.Msgbox(V.Local.sError)</string>
+        <string>	F.Intrinsic.Control.CallSub(Form_unload)</string>
+        <string>Function.Intrinsic.Control.EndIf</string>
+        <string />
+        <string />
+        <string>program.sub.gsfggrid_commandclick.End</string>
+        <string />
+        <string>Program.Sub.BuildStyle.Start</string>
+        <string>F.Intrinsic.Control.SetErrorHandler("BuildStyle_Err")</string>
+        <string>F.Intrinsic.Control.ClearErrors</string>
+        <string />
+        <string>V.Local.sError.Declare(String)</string>
+        <string>V.Local.ic.Declare(Long)</string>
+        <string />
+        <string>Gui.Form.gsfgGrid.Rows(1)</string>
+        <string>Gui.Form.gsfgGrid.Rows(2)</string>
+        <string>Gui.Form.gsfgGrid.FixedRows(1)</string>
+        <string>Gui.Form.gsfgGrid.Cols(3)</string>
+        <string />
+        <string>Gui.Form.gsfgGrid.SetColumnPercentages(".30:.52:.16")</string>
+        <string />
+        <string />
+        <string>'open up texts</string>
+        <string>Gui.Form.gsfgGrid.TextMatrix(0,0,"Outside Code")</string>
+        <string>Gui.Form.gsfgGrid.TextMatrix(1,0,"Excel Desc.")</string>
+        <string />
+        <string />
+        <string>'Column1</string>
+        <string>Gui.Form.gsfgGrid.BuildStyle(1,0,"Format","Alignment",4)</string>
+        <string>Gui.Form.gsfgGrid.BuildStyle(2,0,"Format","Alignment",2)</string>
+        <string>Gui.Form.gsfgGrid.BuildStyle(2,0,"Type","Locked",True)</string>
+        <string />
+        <string />
+        <string>'Column 2</string>
+        <string>Gui.Form.gsfgGrid.BuildStyle(1,1,"Format","Alignment",4)</string>
+        <string>Gui.Form.gsfgGrid.BuildStyle(2,1,"Format","Alignment",2)</string>
+        <string>Gui.Form.gsfgGrid.BuildStyle(2,1,"Type","Locked",True)</string>
+        <string />
+        <string>'Column 3</string>
+        <string>Gui.Form.gsfgGrid.BuildStyle(1,2,"Format","Alignment",4)</string>
+        <string>Gui.Form.gsfgGrid.BuildStyle(2,2,"Type","Command","Edit")</string>
+        <string />
+        <string />
+        <string />
+        <string>F.Intrinsic.Control.ExitSub</string>
+        <string />
+        <string />
+        <string>F.Intrinsic.Control.Label("BuildStyle_Err")</string>
+        <string>F.Intrinsic.Control.If(V.Ambient.ErrorNumber,&lt;&gt;,0)</string>
+        <string>	Function.Intrinsic.String.Concat("Project: GCG_3876_OP_DESC_MAINT.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)</string>
+        <string>	F.Intrinsic.UI.Msgbox(V.Local.sError)</string>
+        <string>	F.Intrinsic.Control.CallSub(Form_unload)</string>
+        <string>Function.Intrinsic.Control.EndIf</string>
+        <string />
+        <string />
+        <string>Program.Sub.BuildStyle.End</string>
+        <string />
+        <string>Program.Sub.Load_Grid.Start</string>
+        <string>F.Intrinsic.Control.SetErrorHandler("Load_Grid_Err")</string>
+        <string>F.Intrinsic.Control.ClearErrors</string>
+        <string />
+        <string>V.Local.sError.Declare(String)</string>
+        <string />
+        <string>Gui.Form.gsfgGrid.Visible(False)</string>
+        <string />
+        <string>F.ODBC.Connection!conX.OpenLocalRecordsetRO("rst","Select * From GCG_3876_OP_DESC ORDER BY OP_CODE")</string>
+        <string />
+        <string>F.Intrinsic.Control.If(V.ODBC.conX!rst.EOF,=,False)</string>
+        <string>	F.Intrinsic.Variable.LoadUDTFromRecordset("conx","rst","v.uglobal.uGrid",False)</string>
+        <string>	Gui.Form.gsfgGrid.LoadFromUDT("v.uglobal.uGrid","OP_CODE*!*EXCEL_DESC",2)</string>
+        <string />
+        <string>F.Intrinsic.Control.Else</string>
+        <string>	F.Intrinsic.Control.CallSub(Buildstyle)</string>
+        <string>F.Intrinsic.Control.endif</string>
+        <string />
+        <string>F.ODBC.conX!rst.Close</string>
+        <string />
+        <string>Gui.Form.gsfgGrid.Visible(True)</string>
+        <string />
+        <string />
+        <string>F.Intrinsic.Control.ExitSub</string>
+        <string />
+        <string>F.Intrinsic.Control.Label("Load_Grid_Err")</string>
+        <string>F.Intrinsic.Control.If(V.Ambient.ErrorNumber,&lt;&gt;,0)</string>
+        <string>	Function.Intrinsic.String.Concat("Project: GCG_3876_OP_DESC_MAINT.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)</string>
+        <string>	F.Intrinsic.UI.Msgbox(V.Local.sError)</string>
+        <string>	F.Intrinsic.Control.CallSub(Form_unload)</string>
+        <string>Function.Intrinsic.Control.EndIf</string>
+        <string />
+        <string />
+        <string>Program.Sub.Load_Grid.End</string>
+        <string />
+        <string>Program.Sub.Comments.Start</string>
+        <string>${$0$}$$}$TRT$}$05/24/2016 2:01:23 PM$}$False</string>
+        <string>${$3$}$0$}$$}$0$}$-1$}$$}$12:00:00 AM$}$&lt;b&gt;Maintenance Program&lt;/b&gt;</string>
+        <string>Custom Table: GCG3876OP_DESC</string>
+        <string>OP_CODE(char 6) Primary Key,</string>
+        <string>EXCEL_DESC(CHAR 30)</string>
+        <string />
+        <string>Program will have a screen that the user can select from existing op-codes in GSS, and assign the matching description that will be in the spreadsheets that are read. These values will be saved to a table that the gab program will read from to determine which OP Code to use based on the description in the excel sheet for outside operations(i.e. "STRESS FAB" = "STR1" for example.)</string>
+        <string />
+        <string>Screen will have standard Op code browser that will look in Op_codes table and load OPERATION, DESCRIPTION to two textboxes. Description is the only one that is editable.</string>
+        <string />
+        <string>A grid will be below the textboxes that shows existing records in the custom table, 2 columns, Op Code, Excel Description.</string>
+        <string />
+        <string>Save Button will save the op_code and Description to the custom table, Op Code is the Primary Key.</string>
+        <string />
+        <string>Program.Sub.Comments.End</string>
+        <string />
+      </Lines>
+    </TextStrings>
+  </TextSource>
+  <Scrolling>
+    <WindowOriginY>335</WindowOriginY>
+  </Scrolling>
+  <Outlining>
+    <AllowOutlining>true</AllowOutlining>
+    <ImageSize>8</ImageSize>
+    <Ranges>
+      <Range>
+        <StartPoint>
+          <X>0</X>
+          <Y>0</Y>
+        </StartPoint>
+        <EndPoint>
+          <X>2147483647</X>
+          <Y>83</Y>
+        </EndPoint>
+        <Text>Program.Sub.ScreenSU</Text>
+        <DisplayText>Program.Sub.ScreenSU</DisplayText>
+        <Visible>false</Visible>
+        <Level>0</Level>
+      </Range>
+      <Range>
+        <StartPoint>
+          <X>0</X>
+          <Y>85</Y>
+        </StartPoint>
+        <EndPoint>
+          <X>2147483647</X>
+          <Y>90</Y>
+        </EndPoint>
+        <Text>Program.Sub.Preflight</Text>
+        <DisplayText>Program.Sub.Preflight</DisplayText>
+        <Visible>false</Visible>
+        <Level>0</Level>
+      </Range>
+      <Range>
+        <StartPoint>
+          <X>0</X>
+          <Y>92</Y>
+        </StartPoint>
+        <EndPoint>
+          <X>2147483647</X>
+          <Y>132</Y>
+        </EndPoint>
+        <Text>Program.Sub.cmdOpBrowser_Click</Text>
+        <DisplayText>Program.Sub.cmdOpBrowser_Click</DisplayText>
+        <Visible>true</Visible>
+        <Level>0</Level>
+      </Range>
+      <Range>
+        <StartPoint>
+          <X>0</X>
+          <Y>134</Y>
+        </StartPoint>
+        <EndPoint>
+          <X>2147483647</X>
+          <Y>186</Y>
+        </EndPoint>
+        <Text>Program.Sub.cmdSave_Click</Text>
+        <DisplayText>Program.Sub.cmdSave_Click</DisplayText>
+        <Visible>true</Visible>
+        <Level>0</Level>
+      </Range>
+      <Range>
+        <StartPoint>
+          <X>0</X>
+          <Y>188</Y>
+        </StartPoint>
+        <EndPoint>
+          <X>2147483647</X>
+          <Y>209</Y>
+        </EndPoint>
+        <Text>Program.Sub.Form_UnLoad</Text>
+        <DisplayText>Program.Sub.Form_UnLoad</DisplayText>
+        <Visible>true</Visible>
+        <Level>0</Level>
+      </Range>
+      <Range>
+        <StartPoint>
+          <X>0</X>
+          <Y>211</Y>
+        </StartPoint>
+        <EndPoint>
+          <X>2147483647</X>
+          <Y>236</Y>
+        </EndPoint>
+        <Text>Program.Sub.Main</Text>
+        <DisplayText>Program.Sub.Main</DisplayText>
+        <Visible>true</Visible>
+        <Level>0</Level>
+      </Range>
+      <Range>
+        <StartPoint>
+          <X>0</X>
+          <Y>238</Y>
+        </StartPoint>
+        <EndPoint>
+          <X>2147483647</X>
+          <Y>259</Y>
+        </EndPoint>
+        <Text>Program.Sub.txtDesc_GotFocus</Text>
+        <DisplayText>Program.Sub.txtDesc_GotFocus</DisplayText>
+        <Visible>true</Visible>
+        <Level>0</Level>
+      </Range>
+      <Range>
+        <StartPoint>
+          <X>0</X>
+          <Y>261</Y>
+        </StartPoint>
+        <EndPoint>
+          <X>2147483647</X>
+          <Y>298</Y>
+        </EndPoint>
+        <Text>Program.Sub.Get_Desc</Text>
+        <DisplayText>Program.Sub.Get_Desc</DisplayText>
+        <Visible>true</Visible>
+        <Level>0</Level>
+      </Range>
+      <Range>
+        <StartPoint>
+          <X>0</X>
+          <Y>300</Y>
+        </StartPoint>
+        <EndPoint>
+          <X>2147483647</X>
+          <Y>341</Y>
+        </EndPoint>
+        <Text>program.sub.cmddelete_click</Text>
+        <DisplayText>program.sub.cmddelete_click</DisplayText>
+        <Visible>true</Visible>
+        <Level>0</Level>
+      </Range>
+      <Range>
+        <StartPoint>
+          <X>0</X>
+          <Y>343</Y>
+        </StartPoint>
+        <EndPoint>
+          <X>2147483647</X>
+          <Y>375</Y>
+        </EndPoint>
+        <Text>program.sub.gsfggrid_commandclick</Text>
+        <DisplayText>program.sub.gsfggrid_commandclick</DisplayText>
+        <Visible>true</Visible>
+        <Level>0</Level>
+      </Range>
+      <Range>
+        <StartPoint>
+          <X>0</X>
+          <Y>377</Y>
+        </StartPoint>
+        <EndPoint>
+          <X>2147483647</X>
+          <Y>425</Y>
+        </EndPoint>
+        <Text>Program.Sub.BuildStyle</Text>
+        <DisplayText>Program.Sub.BuildStyle</DisplayText>
+        <Visible>true</Visible>
+        <Level>0</Level>
+      </Range>
+      <Range>
+        <StartPoint>
+          <X>0</X>
+          <Y>427</Y>
+        </StartPoint>
+        <EndPoint>
+          <X>2147483647</X>
+          <Y>460</Y>
+        </EndPoint>
+        <Text>Program.Sub.Load_Grid</Text>
+        <DisplayText>Program.Sub.Load_Grid</DisplayText>
+        <Visible>true</Visible>
+        <Level>0</Level>
+      </Range>
+      <Range>
+        <StartPoint>
+          <X>0</X>
+          <Y>462</Y>
+        </StartPoint>
+        <EndPoint>
+          <X>2147483647</X>
+          <Y>477</Y>
+        </EndPoint>
+        <Text>Program.Sub.Comments</Text>
+        <DisplayText>Program.Sub.Comments</DisplayText>
+        <Visible>false</Visible>
+        <Level>0</Level>
+      </Range>
+    </Ranges>
+  </Outlining>
+  <HyperText />
+  <Spelling />
+  <Braces />
+</SyntaxEdit>
